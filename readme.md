@@ -38,4 +38,4 @@ cd gm_crash
 cargo build --release --target=i686-unknown-linux-gnu # 32-bit
 cargo build --release --target=x86_64-unknown-linux-gnu # 64-bit
 ```
-You can then find `crash.so` in `./target/<target>/release`. Rename it to `gmsv_crash_linux.dll` or `gmsv_crash_linux64.dll` and you are done.
+You can then find `libcrash.so` in `./target/<target>/release`. Rename it to `gmsv_crash_linux.dll` or `gmsv_crash_linux64.dll` and you are done.

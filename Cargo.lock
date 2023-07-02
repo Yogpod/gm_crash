@@ -27,6 +27,13 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "78518bef4e5cc70a69a0bd1905594f8033b2f7492c9d7c0f173208c0945c30a2"
 
 [[package]]
+name = "crash"
+version = "0.0.1"
+dependencies = [
+ "gmod",
+]
+
+[[package]]
 name = "cstr"
 version = "0.2.11"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -95,13 +102,6 @@ checksum = "85649ca51fd72272d7821adaf274ad91c288277713d9c18820d8499a7ff69e9a"
 dependencies = [
  "typenum",
  "version_check",
-]
-
-[[package]]
-name = "gm_crash"
-version = "0.0.1"
-dependencies = [
- "gmod",
 ]
 
 [[package]]

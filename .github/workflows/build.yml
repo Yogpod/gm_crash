@@ -23,37 +23,26 @@ jobs:
         sudo env ACCEPT_EULA=Y apt upgrade
         sudo apt install gcc-multilib
     
-        rustup target add i686-unknown-linux-gnu # Linux
+        rustup target add i686-unknown-linux-gnu # Linux 32-bit
+        rustup target add x86_64-unknown-linux-gnu # Linux 64-bit
 
         cargo build --release --target=i686-unknown-linux-gnu # 32-bit
         cargo build --release --target=x86_64-unknown-linux-gnu # 64-bit
-
-        # Attach Linux build artifacts
-        echo "::set-output name=linux-artifact::target/i686-unknown-linux-gnu/release"
-        echo "::set-output name=linux-artifact::target/x86_64-unknown-linux-gnu/release"
     
-    - name: Setup MSYS2
+    - name: Rename and Upload Artifacts
       run: |
-        git clone https://github.com/msys2/setup-msys2 -q
-        cd setup-msys2
-        bash -l -c "source ./setup-msys2.sh"
-    
-    - name: Build (Windows)
-      run: |
-        rustup target add i686-pc-windows-gnu # Windows 32-bit
-        rustup target add x86_64-pc-windows-gnu # Windows 64-bit
+        mkdir artifacts
 
-        cargo build --release --target=i686-pc-windows-gnu # 32-bit
-        cargo build --release --target=x86_64-pc-windows-gnu # 64-bit
-
-        # Attach Windows build artifacts
-        echo "::set-output name=windows-artifact::target/i686-pc-windows-gnu/release"
-        echo "::set-output name=windows-artifact::target/x86_64-pc-windows-gnu/release"
+        # Handle 32-bit Linux artifact
+        cp target/i686-unknown-linux-gnu/release/crash.so artifacts/linux.dll
+        
+        # Handle 64-bit Linux artifact
+        cp target/x86_64-unknown-linux-gnu/release/crash.so artifacts/gmsv_crash_linux(x64).dll
+        
+        ls artifacts # Optional: Verify the contents of the artifacts folder
 
     - name: Upload Artifacts
       uses: actions/upload-artifact@v2
       with:
         name: Build Artifacts
-        path: |
-          ${{ env.linux-artifact }}
-          ${{ env.windows-artifact }}
+        path: artifacts/

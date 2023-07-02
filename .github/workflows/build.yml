@@ -34,10 +34,10 @@ jobs:
         mkdir artifacts
 
         # Handle 32-bit Linux artifact
-        cp target/i686-unknown-linux-gnu/release/libcrash.so artifacts/gmsv_crash_linux.dll
+        cp target/i686-unknown-linux-gnu/release/libgm_crash.so artifacts/gmsv_crash_linux.dll
         
         # Handle 64-bit Linux artifact
-        cp target/x86_64-unknown-linux-gnu/release/libcrash.so artifacts/gmsv_crash_linux64.dll
+        cp target/x86_64-unknown-linux-gnu/release/libgm_crash.so artifacts/gmsv_crash_linux64.dll
         
         ls artifacts # Optional: Verify the contents of the artifacts folder
 

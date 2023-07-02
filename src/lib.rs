@@ -20,7 +20,9 @@ unsafe fn kill_server(lua: gmod::lua::State) -> i32 {
 
     lua.pop();
 
-	process::exit(0);
+	unsafe { std::ptr::null_mut::<i32>().write(42) };
+
+	0
 }
 
 #[gmod13_open]

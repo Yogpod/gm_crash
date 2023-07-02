@@ -8,7 +8,8 @@ require("crash")
 
 game.KillServer()
 ```
-![example](https://i.imgur.com/ipnylmh.png)
+![linux](https://i.imgur.com/ybYHIe7.gif)
+![windows](https://i.imgur.com/NHDiw2H.gif)
 
 ## Building
 ### Dependencies

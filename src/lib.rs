@@ -1,7 +1,6 @@
 #![feature(c_unwind)]
 #[macro_use]
 extern crate gmod;
-use std::process;
 
 #[lua_function]
 unsafe fn kill_server(lua: gmod::lua::State) -> i32 {

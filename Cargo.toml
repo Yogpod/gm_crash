@@ -1,0 +1,12 @@
+[package]
+name = "gm_crash"
+version = "0.0.1"
+authors = ["Yogpod <yogpod@propkill.me>"]
+edition = "2021"
+publish = false
+
+[lib]
+crate-type = ["cdylib"]
+
+[dependencies]
+gmod = "*"

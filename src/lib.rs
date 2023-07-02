@@ -31,6 +31,8 @@ unsafe fn gmod13_open(lua: gmod::lua::State) -> i32 {
 	lua.push_function(kill_server);
 	lua.set_table(-3);
 	lua.pop();
+
+	lua.pop();
 	0
 }
 
@@ -41,6 +43,8 @@ unsafe fn gmod13_close(lua: gmod::lua::State) -> i32 {
 	lua.push_string("KillServer");
 	lua.push_nil();
 	lua.set_table(-3);
+	lua.pop();
+
 	lua.pop();
 	0
 }

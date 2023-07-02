@@ -1,0 +1,59 @@
+name: Rust
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Build (Linux)
+      run: |
+        sudo add-apt-repository --remove ppa:ubuntu-toolchain-r/test -y
+        sudo apt update
+        sudo env ACCEPT_EULA=Y apt upgrade
+        sudo apt install gcc-multilib
+    
+        rustup target add i686-unknown-linux-gnu # Linux
+
+        cargo build --release --target=i686-unknown-linux-gnu # 32-bit
+        cargo build --release --target=x86_64-unknown-linux-gnu # 64-bit
+
+        # Attach Linux build artifacts
+        echo "::set-output name=linux-artifact::target/i686-unknown-linux-gnu/release"
+        echo "::set-output name=linux-artifact::target/x86_64-unknown-linux-gnu/release"
+    
+    - name: Setup MSYS2
+      run: |
+        git clone https://github.com/msys2/setup-msys2 -q
+        cd setup-msys2
+        bash -l -c "source ./setup-msys2.sh"
+    
+    - name: Build (Windows)
+      run: |
+        rustup target add i686-pc-windows-gnu # Windows 32-bit
+        rustup target add x86_64-pc-windows-gnu # Windows 64-bit
+
+        cargo build --release --target=i686-pc-windows-gnu # 32-bit
+        cargo build --release --target=x86_64-pc-windows-gnu # 64-bit
+
+        # Attach Windows build artifacts
+        echo "::set-output name=windows-artifact::target/i686-pc-windows-gnu/release"
+        echo "::set-output name=windows-artifact::target/x86_64-pc-windows-gnu/release"
+
+    - name: Upload Artifacts
+      uses: actions/upload-artifact@v2
+      with:
+        name: Build Artifacts
+        path: |
+          ${{ env.linux-artifact }}
+          ${{ env.windows-artifact }}

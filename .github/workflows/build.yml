@@ -10,10 +10,8 @@ env:
   CARGO_TERM_COLOR: always
 
 jobs:
-  build:
-
+  build-linux:
     runs-on: ubuntu-latest
-
     steps:
     - uses: actions/checkout@v3
     - name: Build (Linux)
@@ -39,10 +37,40 @@ jobs:
         # Handle 64-bit Linux artifact
         cp target/x86_64-unknown-linux-gnu/release/libcrash.so artifacts/gmsv_crash_linux64.dll
         
-        ls artifacts # Optional: Verify the contents of the artifacts folder
+        ls artifacts
 
     - name: Upload Artifacts
       uses: actions/upload-artifact@v2
       with:
-        name: Build Artifacts
+        name: Linux-Artifacts
+        path: artifacts/
+
+  build-windows:
+    runs-on: windows-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: Build (Windows)
+      run: |
+        rustup target add i686-pc-windows-msvc # Windows 32-bit
+        rustup target add x86_64-pc-windows-msvc # Windows 64-bit
+
+        cargo build --release --target=i686-pc-windows-msvc # 32-bit
+        cargo build --release --target=x86_64-pc-windows-msvc # 64-bit
+
+    - name: Rename and Upload Artifacts
+      run: |
+        mkdir artifacts
+
+        # Handle 32-bit Windows artifact
+        Copy-Item "target/i686-pc-windows-msvc/release/crash.dll" -Destination "artifacts/gmsv_crash_win32.dll"
+        
+        # Handle 64-bit Windows artifact
+        Copy-Item "target/x86_64-pc-windows-msvc/release/crash.dll" -Destination "artifacts/gmsv_crash_win64.dll"
+        
+        dir artifacts
+
+    - name: Upload Artifacts
+      uses: actions/upload-artifact@v2
+      with:
+        name: Windows-Artifacts
         path: artifacts/
